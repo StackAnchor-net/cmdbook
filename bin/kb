@@ -1,0 +1,120 @@
+#!/usr/bin/env bash
+# kb - fuzzy-pick a command from the cmdbook docs and copy it (or print it).
+set -euo pipefail
+
+usage() {
+  cat <<'USAGE'
+Usage: kb [--print] [query...]
+
+Pick a command from the cmdbook with fzf. Placeholders such as <pod> are
+prompted for before the command is copied to the clipboard.
+
+Options:
+  --print       write the final command to stdout instead of copying it
+  -h, --help    show this help
+
+Any remaining arguments become the initial fzf query.
+USAGE
+}
+
+# Resolve the real location of this script, following symlinks.
+resolve_self() {
+  local path=$1 dir target
+  while [ -L "$path" ]; do
+    dir=$(cd "$(dirname "$path")" && pwd)
+    target=$(readlink "$path")
+    case $target in
+      /*) path=$target ;;
+      *) path=$dir/$target ;;
+    esac
+  done
+  printf '%s/%s\n' "$(cd "$(dirname "$path")" && pwd -P)" "$(basename "$path")"
+}
+
+print_only=0
+query=
+while [ $# -gt 0 ]; do
+  case $1 in
+    -h|--help) usage; exit 0 ;;
+    --print) print_only=1; shift ;;
+    --) shift; break ;;
+    -*) echo "kb: unknown option: $1" >&2; usage >&2; exit 2 ;;
+    *) break ;;
+  esac
+done
+if [ $# -gt 0 ]; then query="$*"; fi
+
+command -v python3 >/dev/null 2>&1 || { echo "kb: python3 is required but not installed" >&2; exit 1; }
+command -v fzf >/dev/null 2>&1 || { echo "kb: fzf is required but not installed (https://github.com/junegunn/fzf)" >&2; exit 1; }
+
+self=$(resolve_self "$0")
+bin_dir=$(dirname "$self")
+parser=$bin_dir/kb_parse.py
+docs=$(dirname "$bin_dir")/docs
+[ -d "$docs" ] || { echo "kb: docs directory not found: $docs" >&2; exit 1; }
+
+# KB_TTY and KB_FZF_FILTER are test hooks, not part of the public interface.
+tty_dev=${KB_TTY:-/dev/tty}
+
+list=$(python3 "$parser" list "$docs")
+[ -n "$list" ] || { echo "kb: no commands found in $docs" >&2; exit 1; }
+
+rc=0
+if [ -n "${KB_FZF_FILTER:-}" ]; then
+  sel=$(printf '%s\n' "$list" | fzf --filter "$KB_FZF_FILTER" --delimiter '\t' --with-nth 2) || rc=$?
+  sel=${sel%%$'\n'*}
+else
+  preview="python3 $(printf '%q' "$parser") preview $(printf '%q' "$docs") {1}"
+  sel=$(printf '%s\n' "$list" | fzf --delimiter '\t' --with-nth 2 \
+    --prompt 'kb> ' --height 80% --layout=reverse --ansi \
+    --query "$query" \
+    --preview "$preview" --preview-window 'right:55%:wrap') || rc=$?
+fi
+if [ "$rc" -ne 0 ] || [ -z "$sel" ]; then
+  # 1 = no match, 130 = Esc/Ctrl-C: quiet exit, nothing copied
+  if [ "$rc" -eq 0 ] || [ "$rc" -eq 1 ] || [ "$rc" -eq 130 ]; then exit 130; fi
+  exit "$rc"
+fi
+idx=${sel%%$'\t'*}
+
+# Prompt for each placeholder; an empty answer keeps the literal <name>.
+names=()
+while IFS= read -r name; do
+  [ -n "$name" ] && names+=("$name")
+done < <(python3 "$parser" placeholders "$docs" "$idx")
+
+values=()
+if [ "${#names[@]}" -gt 0 ]; then
+  exec 3< "$tty_dev"
+  for name in "${names[@]}"; do
+    printf '%s: ' "$name" >&2
+    answer=
+    IFS= read -r answer <&3 || true
+    values+=("$answer")
+  done
+  exec 3<&-
+  cmd=$(python3 "$parser" fill "$docs" "$idx" "${values[@]}")
+else
+  cmd=$(python3 "$parser" get "$docs" "$idx")
+fi
+
+if [ "$print_only" -eq 1 ]; then
+  printf '%s\n' "$cmd"
+  exit 0
+fi
+
+if [ "$(uname)" = Darwin ] && command -v pbcopy >/dev/null 2>&1; then
+  printf '%s' "$cmd" | pbcopy
+else
+  b64=$(printf '%s' "$cmd" | base64 | tr -d '\n')
+  if [ -n "${TMUX:-}" ]; then
+    # tmux passthrough: wrap in DCS, doubling the inner ESCs
+    printf '\033Ptmux;\033\033]52;c;%s\a\033\\' "$b64" > "$tty_dev"
+  else
+    printf '\033]52;c;%s\a' "$b64" > "$tty_dev"
+  fi
+fi
+
+first=${cmd%%$'\n'*}
+if [ "$first" != "$cmd" ]; then first="$first ..."; fi
+echo "Copied: $first" >&2
