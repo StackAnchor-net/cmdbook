@@ -8,7 +8,7 @@ Find, archive and copy files. Examples use GNU tools.
 find <dir> -type f -mtime -1
 ```
 
-`-mtime -1` means less than 24 hours ago; `-mtime +7` means more than 7 days ago.
+`-mtime -1` means modified less than 24 hours ago. `find` ignores fractions of a day, so `-mtime +7` matches only files modified at least 8 days ago.
 
 ### ⚠ Delete files matching a name
 

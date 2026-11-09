@@ -42,7 +42,7 @@ kill <pid>
 ### Find which process listens on a port
 
 ```bash
-lsof -i :<port>
+lsof -nP -iTCP:<port> -sTCP:LISTEN
 ```
 
 Run as root to see processes owned by other users.
