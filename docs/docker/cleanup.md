@@ -33,7 +33,7 @@ docker volume prune
 ```
 
 !!! warning
-    Volumes not attached to any container are deleted permanently, along with all data stored in them.
+    Since Docker Engine 23.0 this removes only unused anonymous volumes, permanently, along with their data. Unused named volumes are removed only if you add `-a`/`--all`.
 
 ### ⚠ Remove all unused Docker data
 
