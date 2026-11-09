@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
 ANSI = re.compile(r"\x1b\[[0-9;?]*[A-Za-z]")
 FENCE = re.compile(r"^\s*(`{3,}|~{3,})\s*(.*)$")
-HEADING = re.compile(r"^(#{1,6})\s+(.*?)\s*#*\s*$")
+HEADING = re.compile(r"^(#{1,6})(?:\s+(.*?))?\s*#*\s*$")
 IPV4 = re.compile(r"(?<![\d.])(?:\d{1,3}\.){3}\d{1,3}(?![\d.])")
 PRIVATE_NETS = [ipaddress.ip_network(n) for n in ("10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16")]
 
@@ -26,10 +26,11 @@ def md_files():
 
 
 def parse(path):
-    """Return (sections, orphans).
+    """Return (sections, orphans, unclosed).
 
     sections: list of dicts {line, desc, raw, blocks: [(line, lang, text)]}
     orphans: bash blocks outside any ### section, as (line, lang, text)
+    unclosed: fences still open at end of file, as (line, lang)
     """
     sections, orphans = [], []
     current = None
@@ -45,7 +46,7 @@ def parse(path):
             h = HEADING.match(line)
             if h and len(h.group(1)) <= 3:
                 if len(h.group(1)) == 3:
-                    current = {"line": no, "desc": h.group(2), "raw": line, "blocks": []}
+                    current = {"line": no, "desc": h.group(2) or "", "raw": line, "blocks": []}
                     sections.append(current)
                 else:
                     current = None
@@ -59,11 +60,12 @@ def parse(path):
                 fence = None
             else:
                 body.append(line)
-    return sections, orphans
+    unclosed = [(fence[3], fence[2])] if fence else []
+    return sections, orphans, unclosed
 
 
 def bash_blocks(path):
-    sections, orphans = parse(path)
+    sections, orphans, _ = parse(path)
     out = list(orphans)
     for s in sections:
         out.extend(s["blocks"])
@@ -88,7 +90,9 @@ class ContentTests(unittest.TestCase):
     def test_exactly_one_bash_block_per_heading(self):
         errors = []
         for p in md_files():
-            sections, orphans = parse(p)
+            sections, orphans, unclosed = parse(p)
+            for line, lang in unclosed:
+                errors.append(f"{rel(p)}:{line}: unclosed code fence (```{lang}) never closed before end of file")
             for s in sections:
                 n = len(s["blocks"])
                 if n != 1:
@@ -100,7 +104,7 @@ class ContentTests(unittest.TestCase):
     def test_blocks_and_descriptions_not_empty(self):
         errors = []
         for p in md_files():
-            sections, _ = parse(p)
+            sections, _, _ = parse(p)
             for s in sections:
                 if not s["desc"].strip():
                     errors.append(f"{rel(p)}:{s['line']}: empty heading description")
@@ -166,7 +170,7 @@ class ContentTests(unittest.TestCase):
     def test_warning_marker_followed_by_space(self):
         errors = []
         for p in md_files():
-            sections, _ = parse(p)
+            sections, _, _ = parse(p)
             for s in sections:
                 if s["desc"].startswith("⚠") and not s["desc"].startswith("⚠ "):
                     errors.append(f"{rel(p)}:{s['line']}: '⚠' must be followed by a space: {s['raw']!r}")
