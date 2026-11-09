@@ -14,66 +14,16 @@ systemctl status <service>
 sudo systemctl restart <service>
 ```
 
-### Enable a service at boot and start it now
-
-```bash
-sudo systemctl enable --now <service>
-```
-
-### Reload systemd after editing unit files
-
-```bash
-sudo systemctl daemon-reload
-```
-
 ### List failed units
 
 ```bash
 systemctl --failed
 ```
 
-### Show the unit file and drop-ins of a service
-
-```bash
-systemctl cat <service>
-```
-
-### List timers and when they fire next
-
-```bash
-systemctl list-timers
-```
-
 ### Follow the logs of a service
 
 ```bash
 journalctl -u <service> -f
-```
-
-### Show the last 100 log lines of a service
-
-```bash
-journalctl -u <service> -n 100 --no-pager
-```
-
-### Show logs since a point in time
-
-```bash
-journalctl -u <service> --since "1 hour ago"
-```
-
-`--since` also accepts timestamps such as `"2026-01-15 08:00:00"`.
-
-### Show only errors from the current boot
-
-```bash
-journalctl -b -p err
-```
-
-### Show how much space the journal uses
-
-```bash
-journalctl --disk-usage
 ```
 
 ### ⚠ Shrink the journal to a maximum size

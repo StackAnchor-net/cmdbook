@@ -1,14 +1,6 @@
 # Files
 
-Find, copy, archive and change files. Examples use GNU tools; the notes call out BSD/macOS differences.
-
-### Find files by name
-
-```bash
-find <dir> -name "<pattern>"
-```
-
-Quote the pattern so the shell does not expand it, for example `"*.log"`.
+Find, archive and copy files. Examples use GNU tools.
 
 ### Find files modified in the last day
 
@@ -33,12 +25,6 @@ find <dir> -type f -name "<pattern>" -delete
 tar -czf <archive.tar.gz> <dir>
 ```
 
-### List the contents of a tar archive
-
-```bash
-tar -tzf <archive.tar.gz>
-```
-
 ### Extract a tar archive into a directory
 
 ```bash
@@ -54,51 +40,3 @@ rsync -avh --progress <src>/ <dest>/
 ```
 
 The trailing slash on the source copies its contents rather than the directory itself.
-
-### Preview what rsync would transfer
-
-```bash
-rsync -avhn <src>/ <dest>/
-```
-
-`-n` (`--dry-run`) makes no changes.
-
-### Copy to a remote host over SSH
-
-```bash
-rsync -avzh --progress <src>/ <user>@example.com:<dest>/
-```
-
-### Make a file executable
-
-```bash
-chmod +x <file>
-```
-
-### Change permissions recursively
-
-```bash
-chmod -R u=rwX,g=rX,o= <dir>
-```
-
-Capital `X` sets execute only on directories and files that are already executable.
-
-### Change owner and group recursively
-
-```bash
-sudo chown -R <user>:<group> <dir>
-```
-
-### Show detailed file metadata
-
-```bash
-stat <file>
-```
-
-### Print the permissions and owner of a file
-
-```bash
-stat -c '%a %U:%G %n' <file>
-```
-
-GNU `stat` syntax; on macOS/BSD use `stat -f '%Lp %Su:%Sg %N' <file>`.
