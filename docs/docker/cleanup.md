@@ -17,15 +17,6 @@ docker container prune
 !!! warning
     Every stopped container is removed along with its writable filesystem layer. Logs and files inside those containers are lost.
 
-### ⚠ Remove dangling images
-
-```bash
-docker image prune
-```
-
-!!! warning
-    Untagged images that no container references are deleted. They can only be recovered by rebuilding or pulling.
-
 ### ⚠ Remove all unused images
 
 ```bash
@@ -43,15 +34,6 @@ docker volume prune
 
 !!! warning
     Volumes not attached to any container are deleted permanently, along with all data stored in them.
-
-### ⚠ Remove unused networks
-
-```bash
-docker network prune
-```
-
-!!! warning
-    All user-defined networks with no connected containers are removed.
 
 ### ⚠ Remove all unused Docker data
 
