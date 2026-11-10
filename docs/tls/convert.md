@@ -34,7 +34,7 @@ openssl pkcs12 -in <bundle.p12> -nodes -out <all.pem>
 ### Add a passphrase to a private key
 
 ```bash
-openssl pkey -in <key.pem> -aes-256-cbc -out <encrypted-key.pem>
+openssl pkey -in <key.pem> -aes256 -out <encrypted-key.pem>
 ```
 
 Prompts for the new passphrase. To go the other way, run `openssl pkey -in <encrypted-key.pem> -out <key.pem>`, which asks for the passphrase and writes an unencrypted copy.
