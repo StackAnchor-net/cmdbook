@@ -76,3 +76,8 @@ nav:
       - Branches: git/branches.md
       - Remotes: git/remotes.md
       - Stash & undo: git/undo.md
+  - SSH:
+      - Keys & agent: ssh/keys.md
+      - Connecting & config: ssh/connect.md
+      - Tunnels & jump hosts: ssh/tunnels.md
+      - Copying files: ssh/copy.md
