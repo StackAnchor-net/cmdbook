@@ -61,6 +61,7 @@ nav:
       - systemd: linux/systemd.md
       - Files: linux/files.md
       - Text: linux/text.md
+      - Troubleshooting: linux/troubleshooting.md
   - Networking:
       - DNS: networking/dns.md
       - IP & sockets: networking/ip-ss.md
