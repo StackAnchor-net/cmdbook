@@ -12,6 +12,7 @@ The same Markdown feeds this website and a local terminal picker, `kb`.
 - [Git](git/setup.md)
 - [Helm](helm/repos.md)
 - [Terraform](terraform/workflow.md)
+- [AWS](aws/identity.md)
 
 ## Content convention
 

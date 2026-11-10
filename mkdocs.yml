@@ -86,3 +86,9 @@ nav:
       - State: terraform/state.md
       - Workspaces & modules: terraform/workspaces.md
       - Debugging & formatting: terraform/debugging.md
+  - AWS:
+      - Identity & config: aws/identity.md
+      - EC2: aws/ec2.md
+      - S3: aws/s3.md
+      - CloudWatch Logs: aws/logs.md
+      - EKS & ECR: aws/eks.md
