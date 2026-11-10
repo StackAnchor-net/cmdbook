@@ -76,3 +76,8 @@ nav:
       - Branches: git/branches.md
       - Remotes: git/remotes.md
       - Stash & undo: git/undo.md
+  - Terraform:
+      - Core workflow: terraform/workflow.md
+      - State: terraform/state.md
+      - Workspaces & modules: terraform/workspaces.md
+      - Debugging & formatting: terraform/debugging.md
