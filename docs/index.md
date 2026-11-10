@@ -10,6 +10,7 @@ The same Markdown feeds this website and a local terminal picker, `kb`.
 - [Linux](linux/processes.md)
 - [Networking](networking/dns.md)
 - [Git](git/setup.md)
+- [Helm](helm/repos.md)
 
 ## Content convention
 
