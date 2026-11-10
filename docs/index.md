@@ -13,6 +13,7 @@ The same Markdown feeds this website and a local terminal picker, `kb`.
 - [Helm](helm/repos.md)
 - [Terraform](terraform/workflow.md)
 - [AWS](aws/identity.md)
+- [SSH](ssh/keys.md)
 
 ## Content convention
 
