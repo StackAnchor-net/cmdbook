@@ -22,6 +22,12 @@ CATEGORY_NAMES = {
     "docker": "Docker",
     "linux": "Linux",
     "networking": "Networking",
+    "git": "Git",
+    "helm": "Helm",
+    "terraform": "Terraform",
+    "aws": "AWS",
+    "ssh": "SSH",
+    "tls": "TLS",
 }
 
 
