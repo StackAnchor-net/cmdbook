@@ -1,14 +1,6 @@
 # Networking
 
-Services, endpoints and in-cluster connectivity tests.
-
-### Show the endpoints behind a service
-
-```bash
-kubectl get endpoints <service>
-```
-
-An empty endpoint list usually means the service selector matches no ready pods.
+Reach services and pods from your machine, and test connectivity from inside the cluster.
 
 ### Forward a local port to a service
 
@@ -16,18 +8,18 @@ An empty endpoint list usually means the service selector matches no ready pods.
 kubectl port-forward svc/<service> <local-port>:<service-port>
 ```
 
-## Testing from inside the cluster
-
-These pods are removed automatically when you exit (`--rm`).
-
-### Curl a service from inside the cluster
+### Forward a local port to a pod
 
 ```bash
-kubectl run curl-test --rm -it --restart=Never --image=curlimages/curl -- curl -s http://<service>.<namespace>.svc.cluster.local:<port>
+kubectl port-forward <pod> <local-port>:<container-port>
 ```
 
-### Check DNS resolution of a service
+### Start a throwaway shell pod inside the cluster
 
 ```bash
-kubectl run dns-test --rm -it --restart=Never --image=busybox:1.36 -- nslookup <service>.<namespace>.svc.cluster.local
+kubectl run -i --tty --rm <name> --image=busybox:1.36 --restart=Never -- sh
 ```
+
+`--rm` deletes the pod when the shell exits. From this shell you can test DNS and connectivity, for example `nslookup <service>`.
+
+Commands adapted from the [kubectl Quick Reference](https://kubernetes.io/docs/reference/kubectl/quick-reference/) by The Kubernetes Authors, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).

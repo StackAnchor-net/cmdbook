@@ -1,6 +1,6 @@
 # Images
 
-Build, tag, inspect and push images.
+Build, list, pull, push and remove images.
 
 ### Build an image from the Dockerfile in the current directory
 
@@ -8,22 +8,10 @@ Build, tag, inspect and push images.
 docker build -t <image>:<tag> .
 ```
 
-### Tag an image for a registry
+### Build an image without using the cache
 
 ```bash
-docker tag <image>:<tag> <registry>/<image>:<tag>
-```
-
-### Push an image to a registry
-
-```bash
-docker push <registry>/<image>:<tag>
-```
-
-### Pull an image from a registry
-
-```bash
-docker pull <image>:<tag>
+docker build --no-cache -t <image>:<tag> .
 ```
 
 ### List local images
@@ -32,8 +20,27 @@ docker pull <image>:<tag>
 docker images
 ```
 
-### Show the full metadata of an image
+### Pull an image from a registry
 
 ```bash
-docker image inspect <image>:<tag>
+docker pull <image>:<tag>
 ```
+
+### Push an image to a registry
+
+```bash
+docker push <username>/<image>:<tag>
+```
+
+Run `docker login -u <username>` first if you are not signed in.
+
+### ⚠ Remove a local image
+
+```bash
+docker rmi <image>:<tag>
+```
+
+!!! warning
+    The image tag is removed from this machine. An image that was never pushed to a registry cannot be recovered, and Docker refuses to remove an image that a container still uses.
+
+See also the official [Docker CLI cheat sheet](https://docs.docker.com/get-started/docker_cheatsheet.pdf).

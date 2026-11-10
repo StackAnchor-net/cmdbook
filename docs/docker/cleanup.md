@@ -17,14 +17,14 @@ docker container prune
 !!! warning
     Every stopped container is removed along with its writable filesystem layer. Logs and files inside those containers are lost.
 
-### ⚠ Remove all unused images
+### ⚠ Remove dangling images
 
 ```bash
-docker image prune -a
+docker image prune
 ```
 
 !!! warning
-    Every image not used by at least one container is deleted, including tagged ones. Locally built images that were never pushed to a registry are lost.
+    Every dangling image (untagged and unreferenced) is deleted. Add `-a` to remove all images not used by a container, including tagged ones.
 
 ### ⚠ Remove unused volumes
 
@@ -52,3 +52,5 @@ docker compose down -v
 
 !!! warning
     Containers, networks and the named volumes declared in the compose file are removed. Data stored in those volumes, such as databases, is lost.
+
+See also the official [Docker CLI cheat sheet](https://docs.docker.com/get-started/docker_cheatsheet.pdf).
