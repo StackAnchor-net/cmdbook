@@ -20,6 +20,14 @@ holding the command. Everything else on a page is for reading only.
 - Commands whose description starts with `⚠ ` are destructive; the page says what is lost.
 - Examples use documentation-safe names and addresses such as `example.com` and `192.0.2.10`.
 
+## For AI agents and scripts
+
+- [llms.txt](llms.txt): index of every page, following [llmstxt.org](https://llmstxt.org/)
+- [llms-full.txt](llms-full.txt): the full Markdown of all pages in one file
+- [commands.json](commands.json): every command with its description, placeholders and destructive flag
+
+Each page is also served as raw Markdown, for example `kubernetes/pods.md`.
+
 ## Using kb
 
 ```text

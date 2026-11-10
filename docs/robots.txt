@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://stackanchor-net.github.io/cmdbook/sitemap.xml
