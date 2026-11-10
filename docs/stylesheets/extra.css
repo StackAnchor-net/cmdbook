@@ -1,0 +1,11 @@
+/* Mobile: wrap long commands instead of scrolling sideways (display only; copy still uses the original text). */
+@media (max-width: 600px) {
+  .md-typeset pre > code {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  .md-typeset__scrollwrap {
+    overflow-x: auto;
+  }
+}
