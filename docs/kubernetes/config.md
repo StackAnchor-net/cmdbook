@@ -2,6 +2,12 @@
 
 Contexts, namespaces, ConfigMaps and Secrets.
 
+### List the available contexts
+
+```bash
+kubectl config get-contexts
+```
+
 ### Switch to another context
 
 ```bash
@@ -14,25 +20,20 @@ kubectl config use-context <context>
 kubectl config set-context --current --namespace=<namespace>
 ```
 
-### Decode one key of a Secret
+### Read one key of a ConfigMap
 
 ```bash
-kubectl get secret <secret> -o jsonpath='{.data.<key>}' | base64 -d
+kubectl get configmap <configmap> -o jsonpath='{.data.<key>}'
 ```
 
-Secret values are base64-encoded, not encrypted. Keys that contain dots must be escaped in the JSONPath, for example `{.data.tls\.crt}`.
+Keys that contain dots must be escaped in the JSONPath, for example `{.data.ca\.crt}`.
 
-### Apply a manifest
+### Print all keys of a Secret, decoded
 
 ```bash
-kubectl apply -f <file.yaml>
+kubectl get secret <secret> -o go-template='{{range $k,$v := .data}}{{"### "}}{{$k}}{{"\n"}}{{$v|base64decode}}{{"\n\n"}}{{end}}'
 ```
 
-### ⚠ Delete the resources defined in a manifest
+Secret values are base64-encoded, not encrypted. The template decodes them for you, so no external tools are needed. This prints sensitive data to your terminal.
 
-```bash
-kubectl delete -f <file.yaml>
-```
-
-!!! warning
-    Every resource listed in the file is deleted from the cluster, including the data of any PersistentVolumeClaims it defines when the volume's reclaim policy is `Delete`.
+Commands adapted from the [kubectl Quick Reference](https://kubernetes.io/docs/reference/kubectl/quick-reference/) by The Kubernetes Authors, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).

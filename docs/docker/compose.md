@@ -28,16 +28,4 @@ docker compose ps
 docker compose logs -f <service>
 ```
 
-### Print the resolved compose configuration
-
-```bash
-docker compose config
-```
-
-This validates the file and shows it with variables interpolated.
-
-### Open a shell in a service container
-
-```bash
-docker compose exec <service> sh
-```
+See also the official [Docker CLI cheat sheet](https://docs.docker.com/get-started/docker_cheatsheet.pdf).
