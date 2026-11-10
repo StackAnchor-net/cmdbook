@@ -37,6 +37,6 @@ helm uninstall <release> -n <namespace>
 ```
 
 !!! warning
-    All Kubernetes resources created by the release are deleted, and the release history is removed so you can no longer roll back. Data stored in chart-managed resources is lost.
+    The resources in the release's manifest are deleted, and the release history is removed so you can no longer roll back. Data in those resources is lost. PersistentVolumeClaims created by a StatefulSet's `volumeClaimTemplates`, and resources annotated `helm.sh/resource-policy: keep`, are left behind; delete them separately if you no longer need the data.
 
 See also the official [Helm command reference](https://helm.sh/docs/helm/).
