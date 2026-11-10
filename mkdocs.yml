@@ -1,5 +1,5 @@
 site_name: cmdbook
-site_description: A DevOps command knowledge base for Kubernetes, Docker, Linux and networking.
+site_description: A DevOps command knowledge base for Kubernetes, Docker, Linux, networking and Git.
 site_url: https://stackanchor-net.github.io/cmdbook/
 repo_url: https://github.com/StackAnchor-net/cmdbook
 repo_name: StackAnchor-net/cmdbook
@@ -66,3 +66,9 @@ nav:
       - IP & sockets: networking/ip-ss.md
       - tcpdump: networking/tcpdump.md
       - TLS & curl: networking/tls-curl.md
+  - Git:
+      - Setup: git/setup.md
+      - Basics: git/basics.md
+      - Branches: git/branches.md
+      - Remotes: git/remotes.md
+      - Stash & undo: git/undo.md
