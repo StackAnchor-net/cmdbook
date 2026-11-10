@@ -4,13 +4,15 @@ set -euo pipefail
 
 usage() {
   cat <<'USAGE'
-Usage: kb [--print] [query...]
+Usage: kb [--print] [--raw] [query...]
 
-Pick a command from the cmdbook with fzf. Placeholders such as <pod> are
-prompted for before the command is copied to the clipboard.
+Pick a command from the cmdbook with fzf. kb shows the chosen command and
+asks for a value for each placeholder such as <pod> (Enter keeps it as is),
+then copies the command to the clipboard.
 
 Options:
   --print       write the final command to stdout instead of copying it
+  --raw         skip the placeholder prompts; copy the command as written
   -h, --help    show this help
 
 Any remaining arguments become the initial fzf query.
@@ -32,11 +34,13 @@ resolve_self() {
 }
 
 print_only=0
+raw=0
 query=
 while [ $# -gt 0 ]; do
   case $1 in
     -h|--help) usage; exit 0 ;;
     --print) print_only=1; shift ;;
+    --raw) raw=1; shift ;;
     --) shift; break ;;
     -*) echo "kb: unknown option: $1" >&2; usage >&2; exit 2 ;;
     *) break ;;
@@ -79,15 +83,19 @@ idx=${sel%%$'\t'*}
 
 # Prompt for each placeholder; an empty answer keeps the literal <name>.
 names=()
-while IFS= read -r name; do
-  [ -n "$name" ] && names+=("$name")
-done < <(python3 "$parser" placeholders "$docs" "$idx")
+if [ "$raw" -eq 0 ]; then
+  while IFS= read -r name; do
+    [ -n "$name" ] && names+=("$name")
+  done < <(python3 "$parser" placeholders "$docs" "$idx")
+fi
 
 values=()
 if [ "${#names[@]}" -gt 0 ]; then
+  python3 "$parser" get "$docs" "$idx" | sed 's/^/  /' >&2
+  echo "Fill in the placeholders (Enter keeps <name> as is):" >&2
   exec 3< "$tty_dev"
   for name in "${names[@]}"; do
-    printf '%s: ' "$name" >&2
+    printf '  <%s>: ' "$name" >&2
     answer=
     IFS= read -r answer <&3 || true
     values+=("$answer")

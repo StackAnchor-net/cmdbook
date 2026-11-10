@@ -65,7 +65,13 @@ Requires `bash`, `python3` and `fzf`. Works on macOS and Linux.
 ```bash
 bin/kb            # pick a command; Enter copies it to the clipboard
 bin/kb --print    # print the chosen command to stdout instead
+bin/kb --raw      # copy the command as written, without placeholder prompts
+bin/kb docker     # start with "docker" as the search query
 ```
+
+After you pick a command, `kb` shows it and asks for a value for each placeholder,
+for example `<container>: `. Type the value and press Enter, or press Enter alone to keep
+the placeholder. The filled-in command is then copied and shown as `Copied: ...`.
 
 On macOS `kb` copies with `pbcopy`. Elsewhere it uses the OSC 52 terminal escape
 sequence, which also works over SSH in terminals that support it, such as iTerm2.

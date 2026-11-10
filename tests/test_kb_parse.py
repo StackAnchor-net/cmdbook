@@ -152,13 +152,13 @@ class CliTests(unittest.TestCase):
             fields = line.split("\t")
             self.assertEqual(len(fields), 3, line)
             self.assertEqual(fields[0], str(i))
-        self.assertIn("Linux › Show disk usage", lines[2])
+        self.assertIn("Linux › Show disk usage  │ df -h", lines[2])
         self.assertTrue(lines[2].endswith("\tdocs/linux/disk.md:9"))
 
     def index_of(self, desc):
         for line in run_parser("list", FIXTURES).stdout.splitlines():
             idx, title, _ = line.split("\t")
-            if title.endswith(desc):
+            if title.split("  │ ")[0].endswith(desc):
                 return idx
         self.fail(desc)
 

@@ -148,7 +148,10 @@ def main(argv):
         for i, c in enumerate(load(docs_dir)):
             title = "%s › %s" % (c.category_name, c.description)
             title = " ".join(title.split())
-            out.write("%d\t%s\t%s:%d\n" % (i, title, c.source, c.line))
+            # Show the command too, so fzf can match on it (first line only).
+            lines = c.command.splitlines() or [""]
+            cmd = " ".join(lines[0].split()) + (" ..." if len(lines) > 1 else "")
+            out.write("%d\t%s  \u2502 %s\t%s:%d\n" % (i, title, cmd, c.source, c.line))
         return 0
     if len(argv) < 4:
         sys.stderr.write(__doc__)
