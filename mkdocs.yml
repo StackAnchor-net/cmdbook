@@ -76,3 +76,8 @@ nav:
       - Branches: git/branches.md
       - Remotes: git/remotes.md
       - Stash & undo: git/undo.md
+  - Helm:
+      - Repositories & charts: helm/repos.md
+      - Install & upgrade: helm/install.md
+      - Releases & rollback: helm/releases.md
+      - Inspect & debug: helm/inspect.md
