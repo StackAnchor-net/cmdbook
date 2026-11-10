@@ -76,3 +76,9 @@ nav:
       - Branches: git/branches.md
       - Remotes: git/remotes.md
       - Stash & undo: git/undo.md
+  - AWS:
+      - Identity & config: aws/identity.md
+      - EC2: aws/ec2.md
+      - S3: aws/s3.md
+      - CloudWatch Logs: aws/logs.md
+      - EKS & ECR: aws/eks.md
