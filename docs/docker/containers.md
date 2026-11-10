@@ -1,6 +1,6 @@
 # Containers
 
-Run, inspect and stop containers.
+Run, list, inspect, stop and remove containers.
 
 ### Run a container in the background
 

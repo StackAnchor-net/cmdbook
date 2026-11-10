@@ -25,7 +25,7 @@ Useful for pods in `CrashLoopBackOff`: the current container has little to show,
 ### Attach an ephemeral debug container to a pod
 
 ```bash
-kubectl debug <pod> -it --image=busybox:1.28
+kubectl debug <pod> -it --image=busybox:1.36
 ```
 
 ### ⚠ Drain a node
