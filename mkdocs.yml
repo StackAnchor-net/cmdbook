@@ -81,3 +81,8 @@ nav:
       - Install & upgrade: helm/install.md
       - Releases & rollback: helm/releases.md
       - Inspect & debug: helm/inspect.md
+  - Terraform:
+      - Core workflow: terraform/workflow.md
+      - State: terraform/state.md
+      - Workspaces & modules: terraform/workspaces.md
+      - Debugging & formatting: terraform/debugging.md

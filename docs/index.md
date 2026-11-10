@@ -11,6 +11,7 @@ The same Markdown feeds this website and a local terminal picker, `kb`.
 - [Networking](networking/dns.md)
 - [Git](git/setup.md)
 - [Helm](helm/repos.md)
+- [Terraform](terraform/workflow.md)
 
 ## Content convention
 
