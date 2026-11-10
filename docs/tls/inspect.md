@@ -2,6 +2,8 @@
 
 Read the contents of a certificate file, check how long it stays valid and confirm it chains to a CA. Every command here works on local PEM files. To fetch a certificate from a server first, see [Check remote endpoints](remote.md).
 
+These pages use OpenSSL 3 syntax. On macOS the built-in `openssl` is LibreSSL, which lacks some options (such as `-ext`); check with `openssl version` and install OpenSSL 3 (for example with Homebrew) if a flag is rejected.
+
 ### Show the full text of a certificate
 
 ```bash

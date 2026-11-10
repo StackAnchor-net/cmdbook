@@ -59,6 +59,6 @@ openssl x509 -noout -pubkey -in <cert.pem> | sha256sum
 openssl pkey -pubout -in <key.pem> | sha256sum
 ```
 
-Run both hash commands: if the two digests are identical, the private key belongs to the certificate. To compare a CSR instead of a certificate, hash the output of `openssl req -noout -pubkey -in <csr.pem>`.
+Run both hash commands: if the two digests are identical, the private key belongs to the certificate. If `sha256sum` is missing (older macOS), use `shasum -a 256` instead. To compare a CSR instead of a certificate, hash the output of `openssl req -noout -pubkey -in <csr.pem>`.
 
 See also the [OpenSSL command documentation](https://docs.openssl.org/master/man1/).
