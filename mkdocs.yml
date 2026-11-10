@@ -1,5 +1,5 @@
 site_name: cmdbook
-site_description: A DevOps command knowledge base for Kubernetes, Docker, Linux, networking and Git.
+site_description: A DevOps command knowledge base for Kubernetes, Helm, Docker, Linux, networking, SSH, TLS, Git, Terraform and AWS.
 site_url: https://stackanchor-net.github.io/cmdbook/
 repo_url: https://github.com/StackAnchor-net/cmdbook
 repo_name: StackAnchor-net/cmdbook

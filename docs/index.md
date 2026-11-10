@@ -1,6 +1,6 @@
 # cmdbook
 
-cmdbook is a DevOps command knowledge base for Kubernetes, Docker, Linux, networking and Git.
+cmdbook is a DevOps command knowledge base for Kubernetes, Helm, Docker, Linux, networking, SSH, TLS, Git, Terraform and AWS.
 The same Markdown feeds this website and a local terminal picker, `kb`.
 
 ## Start here

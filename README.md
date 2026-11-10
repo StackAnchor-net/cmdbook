@@ -1,6 +1,6 @@
 # cmdbook
 
-A DevOps command knowledge base for Kubernetes, Docker, Linux, networking and Git.
+A DevOps command knowledge base for Kubernetes, Helm, Docker, Linux, networking, SSH, TLS, Git, Terraform and AWS.
 
 The same Markdown files feed two front ends:
 
