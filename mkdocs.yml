@@ -97,3 +97,8 @@ nav:
       - Connecting & config: ssh/connect.md
       - Tunnels & jump hosts: ssh/tunnels.md
       - Copying files: ssh/copy.md
+  - TLS:
+      - Inspect certificates: tls/inspect.md
+      - Check remote endpoints: tls/remote.md
+      - Keys & CSRs: tls/keys-csr.md
+      - Convert formats: tls/convert.md

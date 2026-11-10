@@ -14,6 +14,7 @@ The same Markdown feeds this website and a local terminal picker, `kb`.
 - [Terraform](terraform/workflow.md)
 - [AWS](aws/identity.md)
 - [SSH](ssh/keys.md)
+- [TLS](tls/inspect.md)
 
 ## Content convention
 
