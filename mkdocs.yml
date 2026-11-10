@@ -76,3 +76,8 @@ nav:
       - Branches: git/branches.md
       - Remotes: git/remotes.md
       - Stash & undo: git/undo.md
+  - TLS:
+      - Inspect certificates: tls/inspect.md
+      - Check remote endpoints: tls/remote.md
+      - Keys & CSRs: tls/keys-csr.md
+      - Convert formats: tls/convert.md
