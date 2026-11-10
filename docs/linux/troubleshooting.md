@@ -44,7 +44,7 @@ Check addresses and routes first (`ip -br addr`, `ip route` in [ip and ss](../ne
 ping -c 4 <host>
 ```
 
-Ping an IP address such as `192.0.2.1` first. If that works but a name does not, move on to DNS.
+Ping your default gateway's IP first (shown as `via <address>` by `ip route`), then a known external IP, then a name. If the IPs work but the name does not, move on to DNS.
 
 ## DNS resolution fails
 
@@ -109,9 +109,9 @@ free -h
 
 Judge memory by the `available` column rather than `free`, because the kernel uses spare RAM for cache.
 
-## SSH connection refused
+## SSH connection refused or timing out
 
-Confirm the daemon is listening with `sudo ss -tlnp` ([ip and ss](../networking/ip-ss.md)). The SSH unit is `ssh` on Debian/Ubuntu and `sshd` on RHEL/Fedora, so use that name with `systemctl status <service>` ([systemd](systemd.md)).
+A literal "Connection refused" usually means nothing is listening (the daemon is stopped, or bound to another port or address): confirm it with `sudo ss -tlnp` ([ip and ss](../networking/ip-ss.md)). The SSH unit is `ssh` on Debian/Ubuntu and `sshd` on RHEL/Fedora, so use that name with `systemctl status <service>` ([systemd](systemd.md)). A timeout usually points to a firewall silently dropping packets, so check that next (a REJECT rule can also produce "refused").
 
 ### Check whether the firewall allows SSH
 
